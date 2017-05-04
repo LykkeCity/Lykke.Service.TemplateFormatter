@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD05C120-5087-4368-A6D9-2DCB22A637E0}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lykke.Service.EmailFormatter", "src\Lykke.Service.EmailFormatter\Lykke.Service.EmailFormatter.csproj", "{F8314A95-C57E-4FB8-848E-0AF1F407DCA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lykke.Service.EmailFormatter.Tests", "src\Lykke.Service.EmailFormatter.Tests\Lykke.Service.EmailFormatter.Tests.csproj", "{A2F4638C-2264-460D-A5DC-88C6D59C0624}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lykke.Service.EmailFormatter.Console", "src\Lykke.Service.EmailFormatter.Console\Lykke.Service.EmailFormatter.Console.csproj", "{9EF1936A-574B-4987-A437-FEA3F5C3374D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lykke.Service.EmailFormatter.Core", "src\Lykke.Service.EmailFormatter.Core\Lykke.Service.EmailFormatter.Core.csproj", "{3FE3B329-6499-4BC8-9B6B-69093A916FCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8314A95-C57E-4FB8-848E-0AF1F407DCA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8314A95-C57E-4FB8-848E-0AF1F407DCA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8314A95-C57E-4FB8-848E-0AF1F407DCA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8314A95-C57E-4FB8-848E-0AF1F407DCA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2F4638C-2264-460D-A5DC-88C6D59C0624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F4638C-2264-460D-A5DC-88C6D59C0624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F4638C-2264-460D-A5DC-88C6D59C0624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F4638C-2264-460D-A5DC-88C6D59C0624}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EF1936A-574B-4987-A437-FEA3F5C3374D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EF1936A-574B-4987-A437-FEA3F5C3374D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EF1936A-574B-4987-A437-FEA3F5C3374D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EF1936A-574B-4987-A437-FEA3F5C3374D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE3B329-6499-4BC8-9B6B-69093A916FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE3B329-6499-4BC8-9B6B-69093A916FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE3B329-6499-4BC8-9B6B-69093A916FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE3B329-6499-4BC8-9B6B-69093A916FCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

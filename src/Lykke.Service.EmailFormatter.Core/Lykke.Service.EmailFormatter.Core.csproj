@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lykke.AzureQueueIntegration" Version="1.0.7" />
+    <PackageReference Include="Lykke.AzureStorage" Version="1.2.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Lykke.AzureQueueIntegration">
+      <HintPath>C:\Users\yury\.nuget\packages\lykke.azurequeueintegration\1.0.7\lib\netcoreapp1.1\Lykke.AzureQueueIntegration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,1 @@
+Default templates (Lykke is default partnerId)

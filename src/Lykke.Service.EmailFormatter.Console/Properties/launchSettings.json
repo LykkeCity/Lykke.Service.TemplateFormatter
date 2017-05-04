@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Lykke.Service.EmailFormatter.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "dev upload",
+      "workingDirectory": "D:\\lgit\\CommonServices\\Lykke.Service.EmailFormatter\\templates"
+    }
+  }
+}
