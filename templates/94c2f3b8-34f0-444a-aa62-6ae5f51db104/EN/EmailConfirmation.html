@@ -4,7 +4,7 @@
 
 <head>
 
-    <title>@[AssetName] Deposit</title>
+    <title>Verify your email address</title>
 
 </head>
 
@@ -28,7 +28,7 @@
 
             <td style="text-align:center;padding:0 40px 0 40px;">
 
-                <img src="https://lkefiles.blob.core.windows.net:443/images/emails/letter_qr.png" width="300" alt="Letter image" />
+                <img src="https://lkefiles.blob.core.windows.net/images/emails/verify_email.png" width="300" alt="Letter image" />
 
             </td>
 
@@ -38,7 +38,7 @@
 
             <td style="text-align:center;">
 
-                <h1>Deposit @[AssetName]<br /> to Zeptagram</h1>
+                <h1 style="font-size: 2.4em;">Verify your email address</h1>
 
             </td>
 
@@ -46,25 +46,29 @@
 
         <tr>
 
-            <td style="padding:0 40px 0 40px;text-align: center; ">
+            <td style="padding:0 40px 0 40px;">
 
-                <p style="font-size: 1.2em; color: #3F4D60; line-height: 180%; margin-top: 30px;">
+                <p style="text-align: center; font-size: 1.2em; color: #3F4D60; line-height: 180%; margin-top: 30px;">
 
-                    To deposit @[AssetName] to your trading<br /> multisignature wallet, please use the following address:<br />
+                    In order to start using your Zeptagram account,<br/>you need to confirm your email address.
 
-                    <span style="color:#AB01FF;font-weight:bold">@[Multisig]</span><br />
-
-                    or scan the QR code:
+                    Please, enter the following PIN on your smartphone:
 
                 </p>
 
-                <img src="https://Zeptagram-qr.azurewebsites.net/QR/@[Multisig].gif" width="240" alt="QR code" />
+            </td>
 
-                <p style="font-size: 1.2em; color: #3F4D60; line-height: 180%; margin-top: 30px;">
+        </tr>
 
-                    After we receive the deposit confirmation, we will send you a refund transaction to recover the funds.
+        <tr>
 
-                </p>
+            <td style="padding:0 40px 30px 40px;text-align:center">
+
+                <span style="font-size: 2.4em;margin:40px auto 0;padding:10px 20px 10px 20px;border: 1px solid #E5E7EA;">
+
+                    @[ConfirmationCode]
+
+                </span>
 
             </td>
 

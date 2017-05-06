@@ -4,7 +4,7 @@
 
 <head>
 
-    <title>@[AssetName] Deposit</title>
+    <title>Deposit complete</title>
 
 </head>
 
@@ -12,7 +12,7 @@
 
     <div style="margin:20px auto;width:600px;">
 
-        <img src="https://lkefiles.blob.core.windows.net/images/emails/logo_emails.png" height="60" alt="Zeptagram logo" />
+        <img src="https://lkefiles.blob.core.windows.net/images/emails/logo_emails.png" height="60" alt="AlpineVault logo" />
 
     </div>
 
@@ -28,7 +28,7 @@
 
             <td style="text-align:center;padding:0 40px 0 40px;">
 
-                <img src="https://lkefiles.blob.core.windows.net:443/images/emails/letter_qr.png" width="300" alt="Letter image" />
+                <img src="https://lkefiles.blob.core.windows.net:443/images/emails/deposit_btc_logo.png" width="300" alt="Letter image" />
 
             </td>
 
@@ -38,7 +38,7 @@
 
             <td style="text-align:center;">
 
-                <h1>Deposit @[AssetName]<br /> to Zeptagram</h1>
+                <h1 style="font-size:2.4em;">Deposit complete</h1>
 
             </td>
 
@@ -48,23 +48,29 @@
 
             <td style="padding:0 40px 0 40px;text-align: center; ">
 
-                <p style="font-size: 1.2em; color: #3F4D60; line-height: 180%; margin-top: 30px;">
+                <p style="font-size: 1.2em; color: #3F4D60; line-height: 180%;">
 
-                    To deposit @[AssetName] to your trading<br /> multisignature wallet, please use the following address:<br />
+                    A deposit of @[Amount] BTC has been completed to your multisignature trading wallet with 3 confirmations received.
 
-                    <span style="color:#AB01FF;font-weight:bold">@[Multisig]</span><br />
+                    To ensure that your funds are safe, the refund transaction is attached to this email. 
 
-                    or scan the QR code:
-
-                </p>
-
-                <img src="https://Zeptagram-qr.azurewebsites.net/QR/@[Multisig].gif" width="240" alt="QR code" />
-
-                <p style="font-size: 1.2em; color: #3F4D60; line-height: 180%; margin-top: 30px;">
-
-                    After we receive the deposit confirmation, we will send you a refund transaction to recover the funds.
+                    In case of emergency you may broadcast it to the blockchain after @[ValidDays] days to reclaim your funds.
 
                 </p>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td style="padding:20px 40px 60px 40px; text-align:center;">
+
+                <a style="font-weight: bold; letter-spacing: 3px; font-size: 1.2em; color: #3F4D60; border-radius: 2em; border: 1px solid #3F4D60; padding: 20px 30px 20px 30px; text-decoration: none" href="@[ExplorerUrl]">
+
+                    VIEW IN EXPLORER
+
+                </a>
 
             </td>
 
@@ -90,13 +96,13 @@
 
             <td style="padding:10px 40px 20px 40px; text-align:center;font-size: 0.9em;color: #8C94A0;margin: 20px 0 40px 0;">
 
-                <p>&copy; Zeptagram @[Year]. All rights reserved. Need help? Contact &mdash; <a style="color: #8C94A0;" href="mailto:support@Zeptagram.com">support@Zeptagram.com</a></p>
+                <p>&copy; AlpineVault @[Year]. All rights reserved. Need help? Contact &mdash; <a style="color: #8C94A0;" href="mailto:support@AlpineVault.com">support@AlpineVault.com</a></p>
 
                 <p>Let's be friends in social networks!</p>
 
                 <a href="https://www.facebook.com/groups/542506412568917/"><img style="margin-right:10px" src="https://lkefiles.blob.core.windows.net/images/emails/fb_icon.png" height="25" alt="facebook" /></a>
 
-                <a href="https://twitter.com/ZeptagramCity"><img style="margin-right:10px" src="https://lkefiles.blob.core.windows.net/images/emails/twitter_icon.png" height="25" alt="twitter" /></a>
+                <a href="https://twitter.com/AlpineVaultCity"><img style="margin-right:10px" src="https://lkefiles.blob.core.windows.net/images/emails/twitter_icon.png" height="25" alt="twitter" /></a>
 
                 <a href="https://www.youtube.com/channel/UCmMYipGdKMF0kzfaE-PXsNQ"><img style="margin-right:10px" src="https://lkefiles.blob.core.windows.net/images/emails/youtube_icon.png" height="25" alt="youtube" /></a>
 
