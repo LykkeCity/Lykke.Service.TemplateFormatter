@@ -27,6 +27,7 @@ namespace Lykke.Service.EmailFormatter.Models
 
     public class EmailFormatResponse
     {
+        public string Subject { get; set; }
         public string TextBody { get; set; }
         public string HtmlBody { get; set; }
     }

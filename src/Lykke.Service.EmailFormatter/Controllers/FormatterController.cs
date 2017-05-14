@@ -39,13 +39,17 @@ namespace Lykke.Service.EmailFormatter.Controllers
                 MatchEvaluator matchEvaluator = delegate (Match match)
                 {
                     var key = match.Groups[1].Value;
-                    if(null == request.Parameters || !request.Parameters.ContainsKey(key))
+                    if (null == request.Parameters || !request.Parameters.ContainsKey(key))
                         throw new KeyNotFoundException($"Unable to find parameter {key} required by email template {request.CaseId} ({request.Language}) for partner {request.PartnerId}");
                     return request.Parameters[match.Groups[1].Value].ToString();
                 };
 
                 return new EmailFormatResponse
                 {
+                    Subject =
+                        string.IsNullOrWhiteSpace(template.SubjectTemplate)
+                            ? "testEmail"
+                            : ParameterRegex.Replace(template.SubjectTemplate, matchEvaluator),
                     TextBody =
                         string.IsNullOrWhiteSpace(template.TextTemplate)
                             ? null
