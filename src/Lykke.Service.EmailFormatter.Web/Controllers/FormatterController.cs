@@ -7,6 +7,7 @@ using Common.Log;
 using Lykke.Service.EmailFormatter.Models;
 using Microsoft.AspNetCore.Mvc;
 using Lykke.Service.EmailFormatter.Settings;
+using Lykke.WebExtensions;
 
 namespace Lykke.Service.EmailFormatter.Controllers
 {
@@ -25,6 +26,7 @@ namespace Lykke.Service.EmailFormatter.Controllers
         }
 
         [HttpPost]
+        [ValidOnlyFilter]
         public async Task<EmailFormatResponse> Format(EmailFormatRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.PartnerId))

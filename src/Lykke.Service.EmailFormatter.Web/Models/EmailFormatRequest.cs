@@ -6,7 +6,6 @@ namespace Lykke.Service.EmailFormatter.Models
 {
     public class EmailFormatRequest
     {
-        [Required(AllowEmptyStrings = false)]
         public string PartnerId { get; set; }
 
         [Required(AllowEmptyStrings = false)]
