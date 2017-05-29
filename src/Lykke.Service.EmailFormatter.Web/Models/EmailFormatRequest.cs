@@ -2,16 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace Lykke.Service.EmailFormatter.Models
+namespace Lykke.Service.EmailFormatter.Web.Models
 {
     public class EmailFormatRequest
     {
-        public string PartnerId { get; set; }
-
         [Required(AllowEmptyStrings = false)]
         public string CaseId { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
+        public string PartnerId { get; set; }
+
         public string Language { get; set; }
 
         public string ParametersJson

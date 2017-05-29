@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace Lykke.Service.EmailFormatter
+namespace Lykke.Service.EmailFormatter.Web
 {
     public class Startup
     {
