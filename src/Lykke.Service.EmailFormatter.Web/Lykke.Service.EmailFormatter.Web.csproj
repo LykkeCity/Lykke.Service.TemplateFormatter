@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <AssemblyName>Lykke.Service.EmailFormatter</AssemblyName>
-    <RootNamespace>Lykke.Service.EmailFormatter</RootNamespace>
+    <AssemblyName>Lykke.Service.EmailFormatter.Web</AssemblyName>
+    <RootNamespace>Lykke.Service.EmailFormatter.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
