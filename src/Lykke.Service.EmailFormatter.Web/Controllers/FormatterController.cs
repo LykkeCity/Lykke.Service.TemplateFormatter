@@ -27,34 +27,38 @@ namespace Lykke.Service.EmailFormatter.Controllers
         [HttpPost]
         public async Task<EmailFormatResponse> Format(EmailFormatRequest request)
         {
+            if (string.IsNullOrWhiteSpace(request.PartnerId))
+                request.PartnerId = "Lykke";
             try
             {
                 var template = _partnerTemplateSettings[request.PartnerId, $"{request.CaseId}_{request.Language}"];
                 if (null == template)
                     throw new Exception($"Unable to find email template {request.CaseId} ({request.Language}) for partner {request.PartnerId}");
 
-                MatchEvaluator matchEvaluator = delegate (Match match)
+                string MatchEvaluator(Match match)
                 {
                     var key = match.Groups[1].Value;
-                    if (null == request.Parameters || !request.Parameters.ContainsKey(key))
-                        throw new KeyNotFoundException($"Unable to find parameter {key} required by email template {request.CaseId} ({request.Language}) for partner {request.PartnerId}");
-                    return request.Parameters[match.Groups[1].Value].ToString();
-                };
+                    if (null != request.Parameters && request.Parameters.ContainsKey(key))
+                        return request.Parameters[key];
+                    if ("Year" == key)
+                        return DateTime.UtcNow.Year.ToString();
+                    throw new KeyNotFoundException($"Unable to find parameter {key} required by email template {request.CaseId} ({request.Language}) for partner {request.PartnerId}");
+                }
 
                 return new EmailFormatResponse
                 {
                     Subject =
                         string.IsNullOrWhiteSpace(template.SubjectTemplate)
                             ? "testEmail"
-                            : ParameterRegex.Replace(template.SubjectTemplate, matchEvaluator),
+                            : ParameterRegex.Replace(template.SubjectTemplate, MatchEvaluator),
                     TextBody =
                         string.IsNullOrWhiteSpace(template.TextTemplate)
                             ? null
-                            : ParameterRegex.Replace(template.TextTemplate, matchEvaluator),
+                            : ParameterRegex.Replace(template.TextTemplate, MatchEvaluator),
                     HtmlBody =
                         string.IsNullOrWhiteSpace(template.HtmlTemplate)
                             ? null
-                            : ParameterRegex.Replace(template.HtmlTemplate, matchEvaluator)
+                            : ParameterRegex.Replace(template.HtmlTemplate, MatchEvaluator)
                 };
             }
             catch (Exception ex)
