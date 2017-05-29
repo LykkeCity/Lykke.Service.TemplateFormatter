@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lykke.Service.EmailFormatter.Core\Lykke.Service.EmailFormatter.Core.csproj" />
+    <ProjectReference Include="..\Lykke.Service.EmailFormatter\Lykke.Service.EmailFormatter.csproj" />
   </ItemGroup>
 
 </Project>

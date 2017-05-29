@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using AzureStorage;
 using AzureStorage.Tables;
 using Common.Log;
-using Lykke.Service.EmailFormatter.Core;
-using Lykke.Service.EmailFormatter.Core.Settings;
+using Lykke.Service.EmailFormatter.Settings;
 
 namespace Lykke.Service.EmailFormatter.Console
 {

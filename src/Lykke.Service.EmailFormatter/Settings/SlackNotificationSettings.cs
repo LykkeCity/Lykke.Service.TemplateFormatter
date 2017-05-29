@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Lykke.AzureQueueIntegration;
 
-namespace Lykke.Service.EmailFormatter.Core.Settings
+namespace Lykke.Service.EmailFormatter.Settings
 {
     public class SlackNotificationSettings
     {

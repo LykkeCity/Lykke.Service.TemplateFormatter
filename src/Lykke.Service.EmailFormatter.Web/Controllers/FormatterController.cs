@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AzureStorage;
 using Common.Log;
-using Lykke.Service.EmailFormatter.Core.Settings;
 using Lykke.Service.EmailFormatter.Models;
 using Microsoft.AspNetCore.Mvc;
+using Lykke.Service.EmailFormatter.Settings;
 
 namespace Lykke.Service.EmailFormatter.Controllers
 {
@@ -27,9 +27,6 @@ namespace Lykke.Service.EmailFormatter.Controllers
         [HttpPost]
         public async Task<EmailFormatResponse> Format(EmailFormatRequest request)
         {
-            if (!TryValidateModel(request))
-                throw new ArgumentException(nameof(request));
-
             try
             {
                 var template = _partnerTemplateSettings[request.PartnerId, $"{request.CaseId}_{request.Language}"];

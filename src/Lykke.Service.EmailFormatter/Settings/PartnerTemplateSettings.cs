@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Lykke.Service.EmailFormatter.Core.Settings
+namespace Lykke.Service.EmailFormatter.Settings
 {
     public class PartnerTemplateSettings : TableEntity
     {

@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Lykke.Service.EmailFormatter.Core.Validation;
+using Lykke.WebExtensions;
 
-namespace Lykke.Service.EmailFormatter.Core.Settings
+namespace Lykke.Service.EmailFormatter.Settings
 {
     public class AppSettings
     {

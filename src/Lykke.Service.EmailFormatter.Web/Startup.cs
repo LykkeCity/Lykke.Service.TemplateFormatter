@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Net.Http;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AzureStorage;
 using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Logs;
-using Lykke.Service.EmailFormatter.Core;
-using Lykke.Service.EmailFormatter.Core.Logs;
-using Lykke.Service.EmailFormatter.Core.Settings;
+using Lykke.Service.EmailFormatter.Settings;
 using Lykke.SlackNotification.AzureQueue;
+using Lykke.WebExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -62,7 +60,10 @@ namespace Lykke.Service.EmailFormatter
                     var logToTable = new LykkeLogToAzureStorage(nameof(EmailFormatter), new AzureTableStorage<LogEntity>(
                         settings.EmailFormatterSettings.Log.ConnectionString, settings.EmailFormatterSettings.Log.TableName, log), slackService);
 
-                    log = new LogToAll(log, logToTable);
+                    log = new LogAggregate()
+                        .AddLogger(log)
+                        .AddLogger(logToTable)
+                        .CreateLogger();
                 }
 
                 // Register dependencies, populate the services from
@@ -94,6 +95,8 @@ namespace Lykke.Service.EmailFormatter
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseMiddleware<GlobalErrorHandlerMiddleware>();
+
             app.UseMvcWithDefaultRoute();
 
             app.UseSwagger();
