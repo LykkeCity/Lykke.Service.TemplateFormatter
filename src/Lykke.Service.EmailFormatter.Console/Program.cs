@@ -9,6 +9,7 @@ using AzureStorage;
 using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Service.EmailFormatter.Web.Settings;
+using Newtonsoft.Json;
 
 namespace Lykke.Service.EmailFormatter.Console
 {
@@ -53,38 +54,47 @@ namespace Lykke.Service.EmailFormatter.Console
 
             var root = new DirectoryInfo(".");
             foreach (var partner in root.GetDirectories())
-                foreach(var language in partner.GetDirectories())
-            {
-                System.Console.WriteLine($"Uploading templates for {partner.Name}");
-                var cases =
-                    language.GetFiles("*Template.*")
-                        .Select(x => Path.GetFileNameWithoutExtension(x.Name).Replace("Template", ""))
-                        .Distinct().ToArray();
-                foreach (var caseName in cases)
+                foreach (var language in partner.GetDirectories())
                 {
-                    var textTemplate = GetTemplate(language, caseName, "txt");
-                    var htmlTemplate = GetTemplate(language, caseName, "html");
+                    var subjectsPath = Path.Combine(language.FullName, "subjects.json");
+                    if (!File.Exists(subjectsPath))
+                        continue;
 
-                    await templates.ModifyOrCreateAsync(partner.Name, $"{caseName}_{language.Name}", () => new PartnerTemplateSettings
+                    var subjects = JsonConvert.DeserializeObject<Dictionary<string, string>>(
+                            File.ReadAllText(subjectsPath, Encoding.UTF8));
+
+                    System.Console.WriteLine($"Uploading templates for {partner.Name}");
+                    foreach (var caseName in subjects.Keys)
                     {
-                        PartitionKey = partner.Name,
-                        RowKey = $"{caseName}_{language.Name}",
-                        TextTemplate = textTemplate,
-                        HtmlTemplate = htmlTemplate
-                    }, existing =>
-                    {
-                        if (!string.IsNullOrWhiteSpace(textTemplate))
-                            existing.TextTemplate = textTemplate;
-                        if (!string.IsNullOrWhiteSpace(htmlTemplate))
-                            existing.HtmlTemplate = htmlTemplate;
-                    });
+                        string baseUrl;
+                        switch (partner.Name)
+                        {
+                            case "AlpineVault":
+                                baseUrl = "https://lkealpinevaultemails.blob.core.windows.net/alpinevault/EN/";
+                                break;
+                            default:
+                                baseUrl = "https://lkefiles.blob.core.windows.net/mails/LykkeWallet/";
+                                break;
+                        }
+                        var subjectTemplate = subjects[caseName];
+
+                        await templates.ModifyOrCreateAsync(partner.Name, $"{caseName}_{language.Name}", () => new PartnerTemplateSettings
+                        {
+                            PartitionKey = partner.Name,
+                            RowKey = $"{caseName}_{language.Name}",
+                            SubjectTemplate = subjectTemplate,
+                            HtmlTemplateUrl = baseUrl + caseName + ".html"
+                        }, existing =>
+                        {
+                            existing.HtmlTemplateUrl = baseUrl + caseName + ".html";
+                        });
+                    }
                 }
-            }
         }
 
         private static string GetTemplate(DirectoryInfo folder, string caseName, string type)
         {
-            var filePath = Path.Combine(folder.FullName, $"{caseName}Template.{type}");
+            var filePath = Path.Combine(folder.FullName, $"{caseName}.{type}");
             return File.Exists(filePath) ? File.ReadAllText(filePath, Encoding.UTF8) : null;
         }
 

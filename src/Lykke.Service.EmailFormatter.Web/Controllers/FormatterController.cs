@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AzureStorage;
@@ -54,12 +56,12 @@ namespace Lykke.Service.EmailFormatter.Web.Controllers
                         Subject = string.IsNullOrWhiteSpace(template.SubjectTemplate)
                             ? "testSubject"
                             : ParameterRegex.Replace(template.SubjectTemplate, MatchEvaluator),
-                        TextBody = string.IsNullOrWhiteSpace(template.TextTemplate)
+                        TextBody = string.IsNullOrWhiteSpace(template.TextTemplateUrl)
                             ? null
-                            : ParameterRegex.Replace(template.TextTemplate, MatchEvaluator),
-                        HtmlBody = string.IsNullOrWhiteSpace(template.HtmlTemplate)
+                            : ParameterRegex.Replace(await LoadTemplate(template.TextTemplateUrl), MatchEvaluator),
+                        HtmlBody = string.IsNullOrWhiteSpace(template.HtmlTemplateUrl)
                             ? null
-                            : ParameterRegex.Replace(template.HtmlTemplate, MatchEvaluator)
+                            : ParameterRegex.Replace(await LoadTemplate(template.HtmlTemplateUrl), MatchEvaluator)
                     }
                 };
             }
@@ -67,6 +69,17 @@ namespace Lykke.Service.EmailFormatter.Web.Controllers
             {
                 await _log.WriteErrorAsync(nameof(EmailFormatter), nameof(Startup), nameof(Format), ex, DateTime.UtcNow);
                 throw;
+            }
+        }
+
+        private async Task<string> LoadTemplate(string templateUrl)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(templateUrl);
+                if(response.StatusCode != HttpStatusCode.OK || null == response.Content)
+                    throw new Exception("Template not found");
+                return await response.Content.ReadAsStringAsync();
             }
         }
     }
