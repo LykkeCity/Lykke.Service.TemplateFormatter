@@ -5,7 +5,7 @@ using AzureStorage;
 using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Logs;
-using Lykke.Service.EmailFormatter.Settings;
+using Lykke.Service.EmailFormatter.Web.Settings;
 using Lykke.SlackNotification.AzureQueue;
 using Lykke.WebExtensions;
 using Microsoft.AspNetCore.Builder;
@@ -44,7 +44,9 @@ namespace Lykke.Service.EmailFormatter.Web
             try
             {
                 // Add framework services.
-                services.AddMvc();
+                services
+                    .AddMvc()
+                    .AddWebExtensions();
 
                 // Add swagger generator
                 services.AddSwaggerGen(x => { x.SwaggerDoc(ApiVersion, new Info { Title = ApiTitle, Version = ApiVersion }); });
@@ -95,7 +97,7 @@ namespace Lykke.Service.EmailFormatter.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseMiddleware<GlobalErrorHandlerMiddleware>();
+            app.UseWebExtensions();
 
             app.UseMvcWithDefaultRoute();
 
