@@ -29,6 +29,15 @@ div:after {
     max-width: 500px;
 }
 
+#doc {
+    margin: 0;
+    padding: 0;
+    background-color: #202528;
+    font-family: Arial, sans-serif;
+    font-size: 14pt;
+    color: #9ea5af;
+}
+
 #body h1 {
     font-size: 140%;
     font-weight: bold;
@@ -76,6 +85,12 @@ div:after {
     height: 1px;
     background-color: #45494c;
     border: none;
+}
+
+#dody p {
+    font-family: Arial, sans-serif;
+    font-size: 14pt;
+    color: #9ea5af;
 }
 
 #body a.button {
