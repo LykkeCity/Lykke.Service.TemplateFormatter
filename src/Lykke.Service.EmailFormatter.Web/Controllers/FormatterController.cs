@@ -39,6 +39,11 @@ namespace Lykke.Service.EmailFormatter.Web.Controllers
             {
                 var template = _partnerTemplateSettings[partnerId, $"{caseId}_{language}"];
                 if (null == template)
+                {
+                    partnerId = "Lykke";
+                    template = _partnerTemplateSettings[partnerId, $"{caseId}_{language}"];
+                }
+                if (null == template)
                     throw new Exception($"Unable to find email template {caseId} ({language}) for partner {partnerId}");
 
                 string MatchEvaluator(Match match)
