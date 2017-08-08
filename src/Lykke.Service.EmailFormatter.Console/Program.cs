@@ -86,6 +86,7 @@ namespace Lykke.Service.EmailFormatter.Console
                             HtmlTemplateUrl = baseUrl + caseName + ".html"
                         }, existing =>
                         {
+                            existing.SubjectTemplate = subjectTemplate;
                             existing.HtmlTemplateUrl = baseUrl + caseName + ".html";
                         });
                     }
