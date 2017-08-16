@@ -3,6 +3,6 @@
     public class SwiftCashoutProcessedTemplate
     {
         public string FullName { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
     }
 }
