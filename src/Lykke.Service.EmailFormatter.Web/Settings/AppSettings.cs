@@ -10,12 +10,6 @@ namespace Lykke.Service.EmailFormatter.Web.Settings
 {
     public class AppSettings
     {
-
-        public static AppSettings Load(string settingsUrl)
-        {
-            return LoadAsync(settingsUrl).Result;
-        }
-
         public static async Task<AppSettings> LoadAsync(string settingsUrl)
         {
             if (string.IsNullOrWhiteSpace(settingsUrl))

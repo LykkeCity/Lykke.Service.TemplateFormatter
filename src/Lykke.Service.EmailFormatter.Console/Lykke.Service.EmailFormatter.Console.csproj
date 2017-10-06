@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>EmailFormatter</AssemblyName>
   </PropertyGroup>
 
@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Lykke.AzureQueueIntegration" Version="1.0.7" />
+    <PackageReference Include="Lykke.SettingsReader" Version="1.0.41" />
   </ItemGroup>
 
   <ItemGroup>

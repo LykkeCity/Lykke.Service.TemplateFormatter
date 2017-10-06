@@ -4,8 +4,10 @@ using Autofac.Extensions.DependencyInjection;
 using AzureStorage;
 using AzureStorage.Tables;
 using Common.Log;
+using Lykke.Common.ApiLibrary.Swagger;
 using Lykke.Logs;
 using Lykke.Service.EmailFormatter.Web.Settings;
+using Lykke.SettingsReader;
 using Lykke.SlackNotification.AzureQueue;
 using Lykke.WebExtensions;
 using Microsoft.AspNetCore.Builder;
@@ -13,12 +15,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace Lykke.Service.EmailFormatter.Web
 {
     public class Startup
     {
+        public IHostingEnvironment Environment { get; }
+        public IContainer ApplicationContainer { get; private set; }
+        public IConfigurationRoot Configuration { get; }
+        public ILog Log { get; private set; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -26,15 +32,10 @@ namespace Lykke.Service.EmailFormatter.Web
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
+            Environment = env;
         }
-
-        public IContainer ApplicationContainer { get; private set; }
-
-        public IConfigurationRoot Configuration { get; }
-
-        public string ApiVersion => "1.0";
-        public string ApiTitle => "Email Formatting Service";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -49,36 +50,26 @@ namespace Lykke.Service.EmailFormatter.Web
                     .AddWebExtensions();
 
                 // Add swagger generator
-                services.AddSwaggerGen(x => { x.SwaggerDoc(ApiVersion, new Info { Title = ApiTitle, Version = ApiVersion }); });
+                services.AddSwaggerGen(options =>
+                {
+                    options.DefaultLykkeConfiguration("v1", "Email Formatting Service");
+                });
 
                 // Load settings
-                var settings = AppSettings.Load(Configuration["SettingsUrl"]);
+                var settings = Configuration.LoadSettings<AppSettings>();
 
-                // Setup advanced logging
-                var slackService = services.UseSlackNotificationsSenderViaAzureQueue(settings.SlackNotifications.AzureQueue, log);
-
-                if (null != settings.EmailFormatterSettings.Log)
-                {
-                    var logToTable = new LykkeLogToAzureStorage(nameof(EmailFormatter), new AzureTableStorage<LogEntity>(
-                        settings.EmailFormatterSettings.Log.ConnectionString, settings.EmailFormatterSettings.Log.TableName, log), slackService);
-
-                    log = new LogAggregate()
-                        .AddLogger(log)
-                        .AddLogger(logToTable)
-                        .CreateLogger();
-                }
+                Log = CreateLogWithSlack(services, settings);
 
                 // Register dependencies, populate the services from
                 // the collection, and build the container. If you want
                 // to dispose of the container at the end of the app,
                 // be sure to keep a reference to it as a property or field.
                 var builder = new ContainerBuilder();
-                builder.RegisterInstance(log).As<ILog>().SingleInstance();
+                builder.RegisterInstance(Log).As<ILog>().SingleInstance();
 
                 // Register business services
-                builder.RegisterInstance(
-                        new AzureTableStorage<PartnerTemplateSettings>(settings.EmailFormatterSettings.Partners.ConnectionString,
-                            settings.EmailFormatterSettings.Partners.TableName, log))
+                builder.RegisterInstance(AzureTableStorage<PartnerTemplateSettings>.Create(settings.ConnectionString(x => x.EmailFormatterSettings.Partners.ConnectionString),
+                    settings.CurrentValue.EmailFormatterSettings.Partners.TableName, Log))
                     .As<INoSQLTableStorage<PartnerTemplateSettings>>()
                     .SingleInstance();
 
@@ -95,17 +86,107 @@ namespace Lykke.Service.EmailFormatter.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifetime)
         {
-            app.UseWebExtensions();
-
-            app.UseMvcWithDefaultRoute();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(x =>
+            if (env.IsDevelopment())
             {
-                x.SwaggerEndpoint($"/swagger/{ApiVersion}/swagger.json", $"{ApiTitle} {ApiVersion}");
-            });
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseWebExtensions();
+            app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUi();
+            app.UseStaticFiles();
+
+            appLifetime.ApplicationStarted.Register(StartApplication);
+            appLifetime.ApplicationStopping.Register(StopApplication);
+            appLifetime.ApplicationStopped.Register(CleanUp);
+        }
+
+        private void StartApplication()
+        {
+            try
+            {
+                //Console.WriteLine("Starting...");
+                //Console.WriteLine("Started");
+            }
+            catch (Exception ex)
+            {
+                Log.WriteFatalErrorAsync(nameof(Startup), nameof(StartApplication), "", ex);
+            }
+        }
+
+        private void StopApplication()
+        {
+            try
+            {
+                //Console.WriteLine("Stopping...");
+                //Console.WriteLine("Stopped");
+            }
+            catch (Exception ex)
+            {
+                Log.WriteFatalErrorAsync(nameof(Startup), nameof(StopApplication), "", ex);
+            }
+        }
+
+        private void CleanUp()
+        {
+            try
+            {
+                Console.WriteLine("Cleaning up...");
+
+                ApplicationContainer.Dispose();
+
+                Console.WriteLine("Cleaned up");
+            }
+            catch (Exception ex)
+            {
+                Log.WriteFatalErrorAsync(nameof(Startup), nameof(CleanUp), "", ex);
+            }
+        }
+
+        private static ILog CreateLogWithSlack(IServiceCollection services, IReloadingManager<AppSettings> settings)
+        {
+            var consoleLogger = new LogToConsole();
+            var aggregateLogger = new AggregateLogger();
+
+            aggregateLogger.AddLog(consoleLogger);
+
+            // Creating slack notification service, which logs own azure queue processing messages to aggregate log
+            var slackService = services.UseSlackNotificationsSenderViaAzureQueue(new AzureQueueIntegration.AzureQueueSettings
+            {
+                ConnectionString = settings.CurrentValue.SlackNotifications.AzureQueue.ConnectionString,
+                QueueName = settings.CurrentValue.SlackNotifications.AzureQueue.QueueName
+            }, aggregateLogger);
+
+            var dbLogConnectionStringManager = settings.Nested(x => x.EmailFormatterSettings.Log.ConnectionString);
+            var dbLogConnectionString = dbLogConnectionStringManager.CurrentValue;
+
+            // Creating azure storage logger, which logs own messages to concole log
+            if (!string.IsNullOrEmpty(dbLogConnectionString) && !(dbLogConnectionString.StartsWith("${") && dbLogConnectionString.EndsWith("}")))
+            {
+                const string appName = "Lykke.Service.EmailFormatter";
+
+                var persistenceManager = new LykkeLogToAzureStoragePersistenceManager(
+                    appName,
+                    AzureTableStorage<LogEntity>.Create(dbLogConnectionStringManager, settings.CurrentValue.EmailFormatterSettings.Log.TableName, consoleLogger),
+                    consoleLogger);
+
+                var slackNotificationsManager = new LykkeLogToAzureSlackNotificationsManager(appName, slackService, consoleLogger);
+
+                var azureStorageLogger = new LykkeLogToAzureStorage(
+                    appName,
+                    persistenceManager,
+                    slackNotificationsManager,
+                    consoleLogger);
+
+                azureStorageLogger.Start();
+
+                aggregateLogger.AddLog(azureStorageLogger);
+            }
+
+            return aggregateLogger;
         }
     }
 }

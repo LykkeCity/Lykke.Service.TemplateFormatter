@@ -9,6 +9,8 @@ using AzureStorage;
 using AzureStorage.Tables;
 using Common.Log;
 using Lykke.Service.EmailFormatter.Web.Settings;
+using Lykke.SettingsReader;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Lykke.Service.EmailFormatter.Console
@@ -28,13 +30,18 @@ namespace Lykke.Service.EmailFormatter.Console
                 return;
             }
 
-            var settingsUrl = GetEnvironmentVariable("SettingsUrl", args[0]);
-            var settings = await AppSettings.LoadAsync(settingsUrl);
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddEnvironmentVariables();
+
+            var config = builder.Build();
+
+            var settings = config.LoadSettings<AppSettings>();
 
             await Run(settings, args.Skip(1).ToArray());
         }
 
-        private static async Task Run(AppSettings settings, IReadOnlyList<string> args)
+        private static async Task Run(IReloadingManager<AppSettings> settings, IReadOnlyList<string> args)
         {
             switch (args[0])
             {
@@ -48,9 +55,9 @@ namespace Lykke.Service.EmailFormatter.Console
             }
         }
 
-        private static async Task RunUplaod(AppSettings settings, IReadOnlyList<string> args)
+        private static async Task RunUplaod(IReloadingManager<AppSettings> settings, IReadOnlyList<string> args)
         {
-            var templates = new AzureTableStorage<PartnerTemplateSettings>(settings.EmailFormatterSettings.Partners.ConnectionString, settings.EmailFormatterSettings.Partners.TableName, new LogToConsole());
+            var templates = AzureTableStorage<PartnerTemplateSettings>.Create(settings.ConnectionString(x => x.EmailFormatterSettings.Partners.ConnectionString), settings.CurrentValue.EmailFormatterSettings.Partners.TableName, new LogToConsole());
 
             var root = new DirectoryInfo(".");
             foreach (var partner in root.GetDirectories())

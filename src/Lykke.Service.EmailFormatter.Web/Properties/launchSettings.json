@@ -19,7 +19,7 @@
     "Lykke.Service.EmailSender": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "swagger/ui",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
