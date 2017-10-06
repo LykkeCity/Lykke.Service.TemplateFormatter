@@ -2,6 +2,7 @@
 
   <PropertyGroup>    
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Vesion>1.0.0</Vesion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Lykke.Service.EmailFormatter.Web</AssemblyName>
     <RootNamespace>Lykke.Service.EmailFormatter.Web</RootNamespace>
+    <Vesion>1.0.0</Vesion>
   </PropertyGroup>
 
   <ItemGroup>

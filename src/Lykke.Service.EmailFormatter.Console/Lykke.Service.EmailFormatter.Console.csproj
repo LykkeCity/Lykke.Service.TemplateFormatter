@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>EmailFormatter</AssemblyName>
+    <Vesion>1.0.0</Vesion>
   </PropertyGroup>
 
   <ItemGroup>
