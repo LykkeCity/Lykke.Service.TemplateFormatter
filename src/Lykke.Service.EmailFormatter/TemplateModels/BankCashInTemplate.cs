@@ -11,7 +11,7 @@
         public string PurposeOfPayment { get; set; }
         public string BankAddress { get; set; }
         public string CompanyAddress { get; set; }
-        public double Amount { get; set; }
+        public string Amount { get; set; }
         public string Year { get; set; }
     }
 }
