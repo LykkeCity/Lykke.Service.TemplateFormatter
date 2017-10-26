@@ -13,5 +13,6 @@
         public string CompanyAddress { get; set; }
         public double Amount { get; set; }
         public string Year { get; set; }
+        public string CorrespondentAccount { get; set; }
     }
 }
