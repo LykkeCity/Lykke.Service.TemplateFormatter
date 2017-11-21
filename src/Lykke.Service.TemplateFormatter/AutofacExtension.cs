@@ -6,7 +6,7 @@ namespace Lykke.Service.TemplateFormatter
 {
     public static class AutofacExtension
     {
-        public static void RegisterEmailFormatter(this ContainerBuilder builder, string serviceUrl, ILog log)
+        public static void RegisterTemplateFormatter(this ContainerBuilder builder, string serviceUrl, ILog log)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (serviceUrl == null) throw new ArgumentNullException(nameof(serviceUrl));
