@@ -6,13 +6,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AzureStorage;
 using Common.Log;
-using Lykke.Service.EmailFormatter.Web.Models;
 using Lykke.Service.EmailSender;
+using Lykke.Service.TemplateFormatter.Web.Models;
 using Lykke.Service.TemplateFormatter.Web.Settings;
 using Lykke.WebExtensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Lykke.Service.EmailFormatter.Web.Controllers
+namespace Lykke.Service.TemplateFormatter.Web.Controllers
 {
     public class FormatterController : Controller
     {
@@ -72,7 +72,7 @@ namespace Lykke.Service.EmailFormatter.Web.Controllers
             }
             catch (Exception ex)
             {
-                await _log.WriteErrorAsync(nameof(EmailFormatter), nameof(Startup), nameof(Format), ex, DateTime.UtcNow);
+                await _log.WriteErrorAsync(nameof(TemplateFormatter), nameof(Startup), nameof(Format), ex, DateTime.UtcNow);
                 throw;
             }
         }

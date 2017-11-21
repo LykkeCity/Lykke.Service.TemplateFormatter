@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Lykke.Service.EmailFormatter.Web
+namespace Lykke.Service.TemplateFormatter.Web
 {
     public class Program
     {

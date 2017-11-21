@@ -1,6 +1,6 @@
 ﻿using Lykke.Service.EmailSender;
 
-namespace Lykke.Service.EmailFormatter.Web.Models
+namespace Lykke.Service.TemplateFormatter.Web.Models
 {
     public class EmailFormatResponse
     {

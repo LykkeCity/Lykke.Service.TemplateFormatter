@@ -3,7 +3,7 @@ using Lykke.WebExtensions;
 
 namespace Lykke.Service.TemplateFormatter.Web.Settings
 {
-    public class EmailFormatterSettings
+    public class TemplateFormatterSettings
     {
         [ValidateObject]
         public AzureTableSettings Log { get; set; }
@@ -12,7 +12,7 @@ namespace Lykke.Service.TemplateFormatter.Web.Settings
         public AzureTableSettings Partners { get; set; }
     }
 
-    public class AzureTableSettings
+    public class AzureTableSettings : ILogToAzureSettings
     {
         [Required(AllowEmptyStrings = false)]
         public string ConnectionString { get; set; }

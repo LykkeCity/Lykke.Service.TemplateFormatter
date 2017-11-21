@@ -2,19 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.Log;
-using Lykke.Service.EmailFormatter;
 using Lykke.Service.EmailSender;
 using Lykke.Service.TemplateFormatter.AutorestClient;
 using Newtonsoft.Json;
 
 namespace Lykke.Service.TemplateFormatter
 {
-    public class EmailFormatterClient : IEmailFormatter
+    public class TemplateFormatterClient : ITemplateFormatter
     {
         private readonly IEmailFormattingService _service;
         private readonly ILog _log;
 
-        public EmailFormatterClient(string serviceUrl, ILog log)
+        public TemplateFormatterClient(string serviceUrl, ILog log)
         {
             if (string.IsNullOrWhiteSpace(serviceUrl))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serviceUrl));
@@ -46,7 +45,7 @@ namespace Lykke.Service.TemplateFormatter
             }
             catch (Exception ex)
             {
-                await _log.WriteErrorAsync(nameof(EmailFormatter), nameof(EmailFormatterClient), nameof(FormatAsync), ex);
+                await _log.WriteErrorAsync(nameof(EmailFormatter), nameof(TemplateFormatterClient), nameof(FormatAsync), ex);
                 throw;
             }
         }
