@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>Lykke.Service.TemplateFormatter.Web</AssemblyName>
-    <RootNamespace>Lykke.Service.TemplateFormatter.Web</RootNamespace>
+    <AssemblyName>Lykke.Service.TemplateFormatter</AssemblyName>
+    <RootNamespace>Lykke.Service.TemplateFormatter</RootNamespace>
     <Vesion>1.0.0</Vesion>
   </PropertyGroup>
 
