@@ -5,6 +5,7 @@
     <AssemblyName>Lykke.Service.TemplateFormatter</AssemblyName>
     <RootNamespace>Lykke.Service.TemplateFormatter</RootNamespace>
     <Vesion>1.0.0</Vesion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
