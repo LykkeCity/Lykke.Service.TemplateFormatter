@@ -8,6 +8,7 @@ using AzureStorage;
 using Common.Log;
 using Lykke.Service.EmailSender;
 using Lykke.Service.TemplateFormatter.Models;
+using Lykke.Service.TemplateFormatter.Services;
 using Lykke.Service.TemplateFormatter.Web;
 using Lykke.Service.TemplateFormatter.Web.Settings;
 using Lykke.WebExtensions;
@@ -17,57 +18,46 @@ namespace Lykke.Service.TemplateFormatter.Controllers
 {
     public class FormatterController : Controller
     {
-        private static readonly Regex ParameterRegex = new Regex(@"@\[([^\]]+)\]");
+        private const string FallbackLanguage = "EN";
+        private const string FallbackPartnerId = "Lykke";
 
-        private readonly INoSQLTableStorage<PartnerTemplateSettings> _partnerTemplateSettings;
+        private readonly TemplateManager _templates;
         private readonly ILog _log;
 
-        public FormatterController(INoSQLTableStorage<PartnerTemplateSettings> partnerTemplateSettings, ILog log)
+        public FormatterController(TemplateManager templates, ILog log)
         {
-            _partnerTemplateSettings = partnerTemplateSettings;
+            _templates = templates;
             _log = log;
         }
 
         [HttpPost]
-        [Route("api/[controller]/{caseId}/{partnerId}/{language}")]
+        [Route("api/[controller]/{templateName}/{partnerId}/{language}")]
         [ValidOnlyFilter]
-        public async Task<EmailFormatResponse> Format(string caseId, string partnerId, string language, [FromBody]Dictionary<string, string> parameters)
+        public async Task<EmailFormatResponse> Format([FromRoute] string templateName, [FromRoute] string partnerId, [FromRoute] string language, [FromBody] Dictionary<string, string> parameters)
         {
             if(null == parameters)
                 parameters = new Dictionary<string, string>();
 
             try
             {
-                var template = _partnerTemplateSettings[partnerId, $"{caseId}_{language}"];
+                var template = await _templates.GetTemplateAsync(partnerId, language, templateName);
+                if(null == template && FallbackLanguage != language)
+                    template = await _templates.GetTemplateAsync(partnerId, FallbackLanguage, templateName);
+                if (null == template && FallbackPartnerId != partnerId)
+                    template = await _templates.GetTemplateAsync(FallbackPartnerId, language, templateName);
+                if (null == template && FallbackPartnerId != partnerId && FallbackLanguage != language)
+                    template = await _templates.GetTemplateAsync(FallbackPartnerId, FallbackLanguage, templateName);
                 if (null == template)
-                {
-                    partnerId = "Lykke";
-                    template = _partnerTemplateSettings[partnerId, $"{caseId}_{language}"];
-                }
-                if (null == template)
-                    throw new Exception($"Unable to find email template {caseId} ({language}) for partner {partnerId}");
+                    throw new Exception($"Unable to find email template {templateName} ({language}) for partner {partnerId}");
 
-                string MatchEvaluator(Match match)
-                {
-                    var key = match.Groups[1].Value;
-                    if (null != parameters && parameters.ContainsKey(key))
-                        return parameters[key];
-                    throw new KeyNotFoundException($"Unable to find parameter {key} required by email template {caseId} ({language}) for partner {partnerId}");
-                }
-
+                var result = new BasicFormattingLogic().Format(template, parameters);
                 return new EmailFormatResponse
                 {
                     EmailMessage = new EmailMessage
                     {
-                        Subject = string.IsNullOrWhiteSpace(template.SubjectTemplate)
-                            ? "testSubject"
-                            : ParameterRegex.Replace(template.SubjectTemplate, MatchEvaluator),
-                        TextBody = string.IsNullOrWhiteSpace(template.TextTemplateUrl)
-                            ? null
-                            : ParameterRegex.Replace(await LoadTemplate(template.TextTemplateUrl), MatchEvaluator),
-                        HtmlBody = string.IsNullOrWhiteSpace(template.HtmlTemplateUrl)
-                            ? null
-                            : ParameterRegex.Replace(await LoadTemplate(template.HtmlTemplateUrl), MatchEvaluator)
+                        Subject = result.Subject,
+                        HtmlBody = result.HtmlBody,
+                        TextBody = result.TextBody
                     }
                 };
             }
@@ -75,17 +65,6 @@ namespace Lykke.Service.TemplateFormatter.Controllers
             {
                 await _log.WriteErrorAsync(nameof(TemplateFormatter), nameof(Startup), nameof(Format), ex, DateTime.UtcNow);
                 throw;
-            }
-        }
-
-        private async Task<string> LoadTemplate(string templateUrl)
-        {
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetAsync(templateUrl);
-                if(response.StatusCode != HttpStatusCode.OK || null == response.Content)
-                    throw new Exception("Template not found");
-                return await response.Content.ReadAsStringAsync();
             }
         }
     }

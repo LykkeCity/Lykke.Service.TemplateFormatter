@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using AzureStorage;
 using JetBrains.Annotations;
@@ -41,6 +39,5 @@ namespace Lykke.Service.TemplateFormatter.Tests
         {
             return new DirectoryInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Test_Data", directoryName));
         }
-
     }
 }

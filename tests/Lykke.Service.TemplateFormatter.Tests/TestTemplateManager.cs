@@ -18,7 +18,7 @@ namespace Lykke.Service.TemplateFormatter.Tests
         public TestTemplateManager()
         {
             var blob = new AzureBlobInMemory();
-             _initialize = blob.LoadBlobFilesAsync(TemplateManager.TemplatesContainerName);
+            _initialize = blob.LoadBlobFilesAsync(TemplateManager.TemplatesContainerName);
             _templateManager = new TemplateManager(blob);
         }
 
@@ -39,11 +39,8 @@ namespace Lykke.Service.TemplateFormatter.Tests
         public async Task TestHasSubject(string templateName, bool expectedValue)
         {
             await _initialize;
-
             foreach (var templateInfo in await _templateManager.GetTemplatesAsync(templateName))
-            {
                 Assert.Equal(expectedValue, templateInfo.HasSubject);
-            }
         }
 
         [Theory]
@@ -53,11 +50,8 @@ namespace Lykke.Service.TemplateFormatter.Tests
         public async Task TestHasHtml(string templateName, bool expectedValue)
         {
             await _initialize;
-
             foreach (var templateInfo in await _templateManager.GetTemplatesAsync(templateName))
-            {
                 Assert.Equal(expectedValue, templateInfo.HasHtml);
-            }
         }
 
         [Theory]
@@ -67,11 +61,25 @@ namespace Lykke.Service.TemplateFormatter.Tests
         public async Task TestHasText(string templateName, bool expectedValue)
         {
             await _initialize;
-
             foreach (var templateInfo in await _templateManager.GetTemplatesAsync(templateName))
-            {
                 Assert.Equal(expectedValue, templateInfo.HasText);
-            }
+        }
+
+        [Theory]
+        [InlineData("AlpineVault", "EN", "Test3")]
+        public async Task TestGetTemplateExists(string partnerId, string language, string templateName)
+        {
+            await _initialize;
+            Assert.NotNull(await _templateManager.GetTemplateAsync(partnerId, language, templateName));
+        }
+
+        [Theory]
+        [InlineData("AlpineVault", "EN", "Test2")]
+        [InlineData("AlpineVault", "en", "Test3")]
+        public async Task TestGetTemplateNotExists(string partnerId, string language, string templateName)
+        {
+            await _initialize;
+            Assert.Null(await _templateManager.GetTemplateAsync(partnerId, language, templateName));
         }
     }
 }
