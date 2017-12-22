@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Common.Log;
+using Lykke.Service.TemplateFormatter.Client;
 
 namespace Lykke.Service.TemplateFormatter
 {
@@ -14,7 +15,7 @@ namespace Lykke.Service.TemplateFormatter
             if (string.IsNullOrWhiteSpace(serviceUrl))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serviceUrl));
 
-            builder.RegisterInstance(new TemplateFormatterClient(serviceUrl, log)).As<ITemplateFormatter>().SingleInstance();
+            builder.RegisterInstance(new FormatterFormatter(serviceUrl, log)).As<ITemplateFormatter>().SingleInstance();
         }
     }
 }

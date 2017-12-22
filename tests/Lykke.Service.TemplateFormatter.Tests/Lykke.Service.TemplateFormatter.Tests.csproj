@@ -6,9 +6,35 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Test_Data\templates\AlpineVault\EN\Test1.html" />
+    <None Remove="Test_Data\templates\AlpineVault\EN\Test3.html" />
+    <None Remove="Test_Data\templates\AlpineVault\EN\Test3.json" />
+    <None Remove="Test_Data\templates\Default\EN\BtcDepositDone.html" />
+    <None Remove="Test_Data\templates\Default\EN\Test2.json" />
+    <None Remove="Test_Data\templates\Default\EN\Test2.txt" />
+    <None Remove="Test_Data\templates\Default\EN\Test3.html" />
+    <None Remove="Test_Data\templates\Default\EN\Test3.json" />
+    <None Remove="Test_Data\templates\Lykke\EN\Test2.json" />
+    <None Remove="Test_Data\templates\Lykke\EN\Test2.txt" />
+    <None Remove="Test_Data\templates\Lykke\EN\Test3.html" />
+    <None Remove="Test_Data\templates\Lykke\EN\Test3.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Test_Data\**\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lykke.AzureStorage" Version="3.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Lykke.Service.TemplateFormatter.Services\Lykke.Service.TemplateFormatter.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

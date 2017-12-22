@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using AzureStorage;
 using Common.Log;
 using Lykke.Service.EmailSender;
-using Lykke.Service.TemplateFormatter.Web.Models;
+using Lykke.Service.TemplateFormatter.Models;
+using Lykke.Service.TemplateFormatter.Web;
 using Lykke.Service.TemplateFormatter.Web.Settings;
 using Lykke.WebExtensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Lykke.Service.TemplateFormatter.Web.Controllers
+namespace Lykke.Service.TemplateFormatter.Controllers
 {
     public class FormatterController : Controller
     {
