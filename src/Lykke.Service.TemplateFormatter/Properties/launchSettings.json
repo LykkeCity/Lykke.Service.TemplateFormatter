@@ -1,29 +1,24 @@
-﻿{
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:64814/",
-      "sslPort": 0
-    }
-  },
+{
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
+    "TemplateFormatter local dev settings": {
+      "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SettingsUrl": "appsettings.Development.json"
       }
     },
-    "Lykke.Service.EmailSender": {
+    "TemplateFormatter local test settings": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger/ui",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:64815"
+        "ASPNETCORE_ENVIRONMENT": "Staging",
+        "SettingsUrl": "appsettings.Testing.json"
+      }
+    },
+    "TemplateFormatter remote settings": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SettingsUrl": "http://settings.lykke-settings.svc.cluster.local/dfdghjyku56y5tfrjuu56y45t34wr6578khtgr2t546gf_TemplateFormatter"
+      }
     }
   }
 }
