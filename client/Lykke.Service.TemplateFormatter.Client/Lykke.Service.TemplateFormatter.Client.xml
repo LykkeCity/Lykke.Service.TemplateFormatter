@@ -60,65 +60,17 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailAttachment.#ctor">
-            <summary>
-            Initializes a new instance of the EmailAttachment class.
-            </summary>
-        </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailAttachment.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Initializes a new instance of the EmailAttachment class.
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailAttachment.FileName">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailAttachment.MimeType">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailAttachment.ContentInBase64">
-            <summary>
-            </summary>
-        </member>
         <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailFormatResponse.#ctor">
             <summary>
             Initializes a new instance of the EmailFormatResponse class.
             </summary>
         </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailFormatResponse.#ctor(Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailMessage)">
+        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailFormatResponse.#ctor(Lykke.Service.EmailSender.EmailMessage)">
             <summary>
             Initializes a new instance of the EmailFormatResponse class.
             </summary>
         </member>
         <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailFormatResponse.EmailMessage">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailMessage.#ctor">
-            <summary>
-            Initializes a new instance of the EmailMessage class.
-            </summary>
-        </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailMessage.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailAttachment})">
-            <summary>
-            Initializes a new instance of the EmailMessage class.
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailMessage.Subject">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailMessage.HtmlBody">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailMessage.TextBody">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.EmailMessage.Attachments">
             <summary>
             </summary>
         </member>

@@ -1,4 +1,5 @@
-﻿using Lykke.Service.TemplateFormatter.Client.AutorestClient.Models;
+﻿using Lykke.Service.EmailSender;
+using Lykke.Service.TemplateFormatter.Client.AutorestClient.Models;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.TemplateFormatter.Client
