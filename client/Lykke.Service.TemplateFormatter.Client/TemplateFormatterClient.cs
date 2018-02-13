@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.Log;
+using Lykke.Service.EmailSender;
 using Lykke.Service.TemplateFormatter.Client.AutorestClient;
-using Lykke.Service.TemplateFormatter.Client.AutorestClient.Models;
 using Newtonsoft.Json;
 
 namespace Lykke.Service.TemplateFormatter.Client
