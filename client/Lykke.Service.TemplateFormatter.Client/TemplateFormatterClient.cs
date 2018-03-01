@@ -11,9 +11,9 @@ namespace Lykke.Service.TemplateFormatter.Client
     /// <summary>
     /// TemplateFormatter Client
     /// </summary>
-    internal class TemplateFormatterClient : ITemplateFormatter
+    internal class TemplateFormatterClient : ITemplateFormatter, IDisposable
     {
-        private readonly ITemplateFormatterAPI _service;
+        private ITemplateFormatterAPI _service;
         private readonly ILog _log;
 
         internal TemplateFormatterClient(string serviceUrl, ILog log)
@@ -54,6 +54,26 @@ namespace Lykke.Service.TemplateFormatter.Client
                 await _log.WriteErrorAsync(nameof(TemplateFormatterClient), nameof(FormatAsync), ex);
                 throw;
             }
+        }
+
+        private bool isDisposed = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!isDisposed)
+            {
+                if (disposing)
+                {
+                    _service?.Dispose();
+                    _service = null;
+                }
+                isDisposed = true;
+            }
+        }
+        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 
