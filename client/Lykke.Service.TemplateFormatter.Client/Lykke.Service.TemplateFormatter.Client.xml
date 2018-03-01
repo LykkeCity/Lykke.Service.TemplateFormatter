@@ -74,62 +74,6 @@
             <summary>
             </summary>
         </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.ErrorResponse.#ctor">
-            <summary>
-            Initializes a new instance of the ErrorResponse class.
-            </summary>
-        </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.ErrorResponse.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.IList{System.String}})">
-            <summary>
-            Initializes a new instance of the ErrorResponse class.
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.ErrorResponse.ErrorMessage">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.ErrorResponse.ModelErrors">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.#ctor">
-            <summary>
-            Initializes a new instance of the IsAliveResponse class.
-            </summary>
-        </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.#ctor(System.Boolean,System.String,System.String,System.String,System.Collections.Generic.IList{Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IssueIndicator})">
-            <summary>
-            Initializes a new instance of the IsAliveResponse class.
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.Name">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.Version">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.Env">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.IsDebug">
-            <summary>
-            </summary>
-        </member>
-        <member name="P:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.IssueIndicators">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IsAliveResponse.Validate">
-            <summary>
-            Validate the object.
-            </summary>
-            <exception cref="T:Microsoft.Rest.ValidationException">
-            Thrown if validation fails
-            </exception>
-        </member>
         <member name="M:Lykke.Service.TemplateFormatter.Client.AutorestClient.Models.IssueIndicator.#ctor">
             <summary>
             Initializes a new instance of the IssueIndicator class.
