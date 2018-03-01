@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using AzureStorage;
 using Common.Log;
 using Lykke.Service.EmailSender;
-using Lykke.Service.TemplateFormatter.Web.Models;
-using Lykke.Service.TemplateFormatter.Web.Settings;
-using Lykke.WebExtensions;
+using Lykke.Service.TemplateFormatter.AzureRepositories;
+using Lykke.Service.TemplateFormatter.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Lykke.Service.TemplateFormatter.Web.Controllers
+namespace Lykke.Service.TemplateFormatter.Controllers
 {
     public class FormatterController : Controller
     {
@@ -29,7 +28,6 @@ namespace Lykke.Service.TemplateFormatter.Web.Controllers
 
         [HttpPost]
         [Route("api/[controller]/{caseId}/{partnerId}/{language}")]
-        [ValidOnlyFilter]
         public async Task<EmailFormatResponse> Format(string caseId, string partnerId, string language, [FromBody]Dictionary<string, string> parameters)
         {
             if(null == parameters)
@@ -44,7 +42,7 @@ namespace Lykke.Service.TemplateFormatter.Web.Controllers
                     template = _partnerTemplateSettings[partnerId, $"{caseId}_{language}"];
                 }
                 if (null == template)
-                    throw new Exception($"Unable to find email template {caseId} ({language}) for partner {partnerId}");
+                    throw new InvalidOperationException($"Unable to find email template {caseId} ({language}) for partner {partnerId}");
 
                 string MatchEvaluator(Match match)
                 {
@@ -83,7 +81,7 @@ namespace Lykke.Service.TemplateFormatter.Web.Controllers
             {
                 var response = await client.GetAsync(templateUrl);
                 if(response.StatusCode != HttpStatusCode.OK || null == response.Content)
-                    throw new Exception("Template not found");
+                    throw new InvalidOperationException("Template not found");
                 return await response.Content.ReadAsStringAsync();
             }
         }
