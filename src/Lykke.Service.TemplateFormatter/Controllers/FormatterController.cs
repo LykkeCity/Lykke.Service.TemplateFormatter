@@ -44,6 +44,8 @@ namespace Lykke.Service.TemplateFormatter.Controllers
                 if (null == template)
                     throw new InvalidOperationException($"Unable to find email template {caseId} ({language}) for partner {partnerId}");
 
+                Console.WriteLine($"template url: {template.HtmlTemplateUrl}");
+
                 string MatchEvaluator(Match match)
                 {
                     var key = match.Groups[1].Value;
