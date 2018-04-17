@@ -44,7 +44,7 @@ namespace Lykke.Service.TemplateFormatter.Controllers
                 if (null == template)
                     throw new InvalidOperationException($"Unable to find email template {caseId} ({language}) for partner {partnerId}");
 
-                Console.WriteLine($"template url: {template.HtmlTemplateUrl}");
+                await _log.WriteInfoAsync(nameof(TemplateFormatter), nameof(Startup), nameof(Format), $"template url: {template.HtmlTemplateUrl}");
 
                 string MatchEvaluator(Match match)
                 {
@@ -84,6 +84,9 @@ namespace Lykke.Service.TemplateFormatter.Controllers
                 var response = await client.GetAsync(templateUrl);
                 if(response.StatusCode != HttpStatusCode.OK || null == response.Content)
                     throw new InvalidOperationException("Template not found");
+
+                await _log.WriteInfoAsync(nameof(TemplateFormatter), nameof(Startup), nameof(Format), $"template url: {templateUrl}");
+
                 return await response.Content.ReadAsStringAsync();
             }
         }
