@@ -13,6 +13,12 @@
             <summary>
             Registers TemplateFormatter service
             </summary>
+            [Obsolete("Please, use the overload which consumes ILogFactory instead.")]
+        </member>
+        <member name="M:Lykke.Service.TemplateFormatter.AutofacExtension.RegisterTemplateFormatter(Autofac.ContainerBuilder,System.String,Lykke.Common.Log.ILogFactory)">
+            <summary>
+            Registers TemplateFormatter service
+            </summary>
         </member>
         <member name="T:Lykke.Service.TemplateFormatter.Client.AutorestClient.ITemplateFormatterAPI">
             <summary>
