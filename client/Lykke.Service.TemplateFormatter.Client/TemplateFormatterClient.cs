@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.Log;
+using Lykke.Common.Log;
 using Lykke.Service.EmailSender;
 using Lykke.Service.TemplateFormatter.Client.AutorestClient;
 using Newtonsoft.Json;
@@ -16,12 +17,25 @@ namespace Lykke.Service.TemplateFormatter.Client
         private ITemplateFormatterAPI _service;
         private readonly ILog _log;
 
+        [Obsolete("Please, use the overload which consumes ILogFactory instead.")]
         internal TemplateFormatterClient(string serviceUrl, ILog log)
         {
             if (string.IsNullOrWhiteSpace(serviceUrl))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(serviceUrl));
 
             _log = log ?? throw new ArgumentNullException(nameof(log));
+            _service = new TemplateFormatterAPI(new Uri(serviceUrl));
+        }
+
+        internal TemplateFormatterClient(string serviceUrl, ILogFactory logFactory)
+        {
+            if (string.IsNullOrWhiteSpace(serviceUrl))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(serviceUrl));
+
+            if (logFactory == null)
+                throw new ArgumentNullException(nameof(logFactory));
+            _log = logFactory.CreateLog(this);
+
             _service = new TemplateFormatterAPI(new Uri(serviceUrl));
         }
 
